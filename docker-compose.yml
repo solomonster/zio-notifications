@@ -1,0 +1,53 @@
+version: "3.8"
+
+services:
+  zookeeper:
+    image: confluentinc/cp-zookeeper:7.4.4
+    container_name: zookeeper
+    hostname: zookeeper
+    networks:
+      - kafka-net
+    ports:
+      - "2181:2181"
+    environment:
+      ZOOKEEPER_CLIENT_PORT: 2181
+      ZOOKEEPER_TICK_TIME: 2000
+
+  kafka:
+    image: confluentinc/cp-kafka:7.4.4
+    container_name: kafka
+    ports:
+      - "29092:29092"   # Internal access (from other containers)
+    depends_on:
+      - zookeeper
+    environment:
+      KAFKA_BROKER_ID: 1
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+      KAFKA_LISTENERS: PLAINTEXT://0.0.0.0:29092
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://localhost:29092
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+      KAFKA_AUTO_CREATE_TOPICS_ENABLE: "true"
+    networks:
+      - kafka-net
+
+  zio-notifier:
+    image: zio-notifier:latest
+    container_name: zio-notifier
+    build:
+      context: .
+    depends_on:
+      - kafka
+    networks:
+      - kafka-net
+
+    environment:
+      KAFKA_BOOTSTRAP_SERVERS: kafka:29092
+      SENDGRID_API_KEY: "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"
+      EMAIL_FROM: "ismometrical@gmail.com"
+      TWILIO_ACCOUNT_SID: "AC7886228c0cd6ed9809b8b0bc4c6e9f30"
+      TWILIO_AUTH_TOKEN: "82b2570df3d0e74e0a306ab413cbee6f"
+      TWILIO_FROM_NUMBER: "+19388391440"
+    restart: on-failure
+networks:
+  kafka-net:
+    driver: bridge
