@@ -42,11 +42,11 @@ services:
 
     environment:
       KAFKA_BOOTSTRAP_SERVERS: kafka:29092
-      SENDGRID_API_KEY: "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"
-      EMAIL_FROM: "ismometrical@gmail.com"
-      TWILIO_ACCOUNT_SID: "AC7886228c0cd6ed9809b8b0bc4c6e9f30"
-      TWILIO_AUTH_TOKEN: "82b2570df3d0e74e0a306ab413cbee6f"
-      TWILIO_FROM_NUMBER: "+19388391440"
+      SENDGRID_API_KEY: ${SENDGRID_API_KEY}
+      EMAIL_FROM: ${EMAIL_FROM}
+      TWILIO_ACCOUNT_SID: ${TWILIO_ACCOUNT_SID}
+      TWILIO_AUTH_TOKEN: ${TWILIO_AUTH_TOKEN}
+      TWILIO_FROM_NUMBER: ${TWILIO_FROM_NUMBER}
     restart: on-failure
 networks:
   kafka-net:
