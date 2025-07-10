@@ -7,12 +7,12 @@ import zio._
 import zio.kafka.consumer._
 
 object Main extends ZIOAppDefault {
-  val emailApiKey = sys.env.getOrElse("SENDGRID_API_KEY", "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")
-  val emailFrom = sys.env.getOrElse("EMAIL_FROM", "ismometrical@gmail.com")
+  val emailApiKey = sys.env("SENDGRID_API_KEY")
+  val emailFrom = sys.env("EMAIL_FROM")
 
-  val twilioSid = sys.env.getOrElse("TWILIO_ACCOUNT_SID", "AC7886228c0cd6ed9809b8b0bc4c6e9f30")
-  val twilioToken = sys.env.getOrElse("TWILIO_AUTH_TOKEN", "82b2570df3d0e74e0a306ab413cbee6f")
-  val smsFrom = sys.env.getOrElse("TWILIO_FROM_NUMBER", "+19388391440")
+  val twilioSid = sys.env("TWILIO_ACCOUNT_SID")
+  val twilioToken = sys.env("TWILIO_AUTH_TOKEN")
+  val smsFrom = sys.env("TWILIO_FROM_NUMBER")
 
   val emailSender: Channel = EmailSender(emailApiKey, emailFrom)
   val smsSender: Channel = SMSSender(twilioSid, twilioToken, smsFrom)
