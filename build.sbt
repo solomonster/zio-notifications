@@ -19,7 +19,10 @@ lazy val root = (project in file("."))
           "dev.zio" %% "zio-kafka" % "2.8.2",
           "com.sendgrid" % "sendgrid-java" % "4.10.3",
           "com.twilio.sdk" % "twilio" % "10.1.0",
-          "ch.qos.logback" % "logback-classic" % "1.4.14"
+          "dev.zio" %% "zio-logging" % "2.3.2",
+          "dev.zio" %% "zio-logging-slf4j" % "2.3.2",
+          "ch.qos.logback" % "logback-classic" % "1.4.14",
+          "io.github.cdimascio" % "dotenv-java" % "3.0.0"
       )
 
   )

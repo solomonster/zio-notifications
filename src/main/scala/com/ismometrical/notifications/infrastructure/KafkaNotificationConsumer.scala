@@ -34,8 +34,8 @@ object KafkaNotificationConsumer {
       .plainStream(Subscription.topics("notifications"), Serde.string, Serde.string)
       .tap { record =>
         record.value.fromJson[NotificationEvent] match {
-          case Right(notification) =>
-            notificationService.send(notification)
+          case Right(event) =>
+            notificationService.send(event)
               .tapError(e => Console.printLineError(s"❌ Failed to send notification: ${e.getMessage}"))
           case Left(error) =>
             Console.printLineError(s"❌ Failed to parse message: $error\nRaw: ${record.value}")
@@ -46,7 +46,7 @@ object KafkaNotificationConsumer {
       .mapZIO(_.commit)
       .drain
 
-  def run(notificationService: NotificationService): ZIO[Scope, Throwable, Unit] = {
+ /* def run(notificationService: NotificationService): ZIO[Scope, Throwable, Unit] = {
     Consumer
       .consumeWith(
         settings = consumerSettings,
@@ -63,6 +63,6 @@ object KafkaNotificationConsumer {
             ZIO.logError(s"❌ Failed to decode message: $error")
         }
       }
-  }
+  }*/
 }
 

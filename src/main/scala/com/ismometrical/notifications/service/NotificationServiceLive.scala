@@ -1,7 +1,6 @@
-package com.ismometrical.notification.service
+package com.ismometrical.notifications.service
 
 import com.ismometrical.notifications.domain.{Channel, NotificationEvent, NotificationType}
-import com.ismometrical.notifications.service.NotificationService
 import zio._
 
 /**
@@ -10,13 +9,17 @@ import zio._
 final case class NotificationServiceLive(emailChannel: Channel, smsChannel: Channel) extends NotificationService {
 
   override def send(notification: NotificationEvent): IO[Throwable, Unit] =
-    notification.notificationType match {
+    Console.printLine(s"[DEBUG] Received notification: $notification") *>
+      (notification.notificationType match {
       case NotificationType.Email =>
         emailChannel.send(notification.recipient, notification.message)
+          .tap(_ => Console.printLine("[DEBUG] Email sent"))
 
       case NotificationType.SMS =>
         smsChannel.send(notification.recipient, notification.message)
-    }
+          .tap(_ => Console.printLine("[DEBUG] SMS sent"))
+    }).tapError(e => Console.printLine(s"[ERROR] Failed to send notification: ${e.getMessage}"))
+
 }
 
 object NotificationServiceLive {

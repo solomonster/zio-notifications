@@ -22,4 +22,5 @@ object NotificationEvent {
 
   implicit val decoder: JsonDecoder[NotificationEvent] = DeriveJsonDecoder.gen[NotificationEvent]
   implicit  val encoder: JsonEncoder[NotificationEvent] = DeriveJsonEncoder.gen[NotificationEvent]
+
 }

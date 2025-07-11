@@ -41,7 +41,7 @@ services:
       - kafka-net
 
     environment:
-      KAFKA_BOOTSTRAP_SERVERS: kafka:29092
+      KAFKA_BOOTSTRAP_SERVERS: localhost:29092
       SENDGRID_API_KEY: ${SENDGRID_API_KEY}
       EMAIL_FROM: ${EMAIL_FROM}
       TWILIO_ACCOUNT_SID: ${TWILIO_ACCOUNT_SID}
